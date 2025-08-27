@@ -25,7 +25,7 @@ export async function GET(request: Request) {
           sprites: {
             front_default: data.sprites.front_default,
           },
-          types: data.types.map((t) => t.type.name),
+          types: data.types,
         };
       })
     );

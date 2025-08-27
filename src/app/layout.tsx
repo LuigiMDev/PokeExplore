@@ -27,9 +27,8 @@ export default async function RootLayout({
   const res = await fetch(`${baseUrl}/api/pokemons`, {
     next: { revalidate: 300 },
   });
-  const initalPokemonsData = await res.json();
 
-  console.log(initalPokemonsData)
+  const initalPokemonsData = await res.json();
 
   return (
     <html lang="en">
