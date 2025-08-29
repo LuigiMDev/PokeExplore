@@ -1,7 +1,7 @@
 "use client";
 import { PokemonResponse } from "@/types/pokemon";
 import { pokemonStore } from "@/zustand/pokemonStore";
-import React from "react";
+import React, { useEffect } from "react";
 
 const Setter = ({
   children,
@@ -11,7 +11,9 @@ const Setter = ({
   initialPokemonsData: PokemonResponse;
 }) => {
   const setPokemons = pokemonStore((state) => state.setPokemons);
-  setPokemons(initialPokemonsData);
+  useEffect(() => {
+    setPokemons(initialPokemonsData);
+  }, [setPokemons, initialPokemonsData]);
   return <>{children}</>;
 };
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Setter from "./components/Setter";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +24,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const baseUrl = "http://localhost:3000";
   const res = await fetch(`${baseUrl}/api/pokemons`, {
     next: { revalidate: 300 },
   });
@@ -40,6 +41,7 @@ export default async function RootLayout({
             {children}
           </main>
         </Setter>
+        <ToastContainer position="bottom-right" pauseOnHover />
       </body>
     </html>
   );

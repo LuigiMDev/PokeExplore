@@ -1,10 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { pokemonStore } from "@/zustand/pokemonStore";
-import PokemonCard from "./components/PokemonCard";
+import PokemonCard from "./components/Pokemons/PokemonCard";
+import FilterCard from "./components/FilterCard";
+import Container from "./components/Container";
+import { useShallow } from "zustand/shallow";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Search } from "lucide-react";
 
 export default function Home() {
-  const pokemons = pokemonStore((state) => state.pokemons);
+  const [pokemons, isLoading] = pokemonStore(
+    useShallow((state) => [state.pokemons, state.isLoading])
+  );
+
   return (
     <>
       <section
@@ -31,10 +40,53 @@ export default function Home() {
           <Button className="text-lg px-5 py-6">Explore Agora</Button>
         </div>
       </section>
-      <section className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 p-8 content-center">
-        {pokemons.results.map((pokemon) => (
-          <PokemonCard key={pokemon.id} pokemon={pokemon} />
-        ))}
+      <section>
+        <Container>
+          <FilterCard />
+        </Container>
+
+        {isLoading ? (
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 p-8 content-center">
+            {Array(12)
+              .fill(0)
+              .map((_, i) => (
+                <Card
+                  key={i}
+                  className={`text-white relative bg-slate-900 hover:scale-[1.02] transition-all border-slate-800/50 border-2 group cursor-pointer duration-300 hover:shadow-2xl`}
+                >
+                  <CardContent className="relative capitalize">
+                    <Skeleton className="h-5 w-9" />
+                    <div className="flex flex-col items-center text-center transition-all space-y-4">
+                      <Skeleton className="rounded-full shadow-lg h-32 w-32" />
+                      <Skeleton className="w-26 h-7" />
+                      <div className="flex flex-wrap gap-2 mt-2 justify-center items-center">
+                        <Skeleton className="w-20 h-6" />
+                        <Skeleton className="w-20 h-6" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+          </div>
+        ) : pokemons.count === 0 ? (
+          <div className="w-full flex flex-col items-center justify-center py-24">
+            <div className="rounded-full p-5 mb-6 bg-slate-800">
+              <Search className="w-12 h-12 text-slate-400" />
+            </div>
+            <p className="text-2xl text-white font-semibold">
+              Nenhum Pokémon encontrado
+            </p>
+            <p className="text-slate-400">
+              Tente ajustar os filtros de pesquisa
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 p-8 content-center">
+            {pokemons.results.map((pokemon) => (
+              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+            ))}
+          </div>
+        )}
       </section>
     </>
   );

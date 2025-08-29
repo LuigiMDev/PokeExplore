@@ -71,7 +71,5 @@ export type PokemonListAPIResponse = {
 
 export type PokemonResponse = {
   count: number;
-  next: string | null;
-  previous: string | null;
   results: Pokemon[];
 };
