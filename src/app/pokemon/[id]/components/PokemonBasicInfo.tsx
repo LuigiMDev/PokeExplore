@@ -2,7 +2,7 @@ import React from "react";
 import { Ruler, Weight, Zap, Trophy, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import PokemonTypes from "@/app/components/Pokemons/PokemonTypes";
+import PokemonTypes from "@/app/components/PokemonTypes";
 import { DetailedPokemon } from "@/types/pokemon";
 
 type PokemonBasicInfoProps = {

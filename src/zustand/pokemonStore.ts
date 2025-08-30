@@ -6,7 +6,7 @@ type PokemonStore = {
   pokemons: PokemonResponse;
   setPokemons: (pokemons: PokemonResponse) => void;
   searchByInput: (search: string) => Promise<void>;
-  searchByType: (pokemonType: string) => Promise<void>;
+  searchByType: (pokemonType: string, page: number) => Promise<void>;
   isLoading: boolean;
 };
 
@@ -25,10 +25,14 @@ export const pokemonStore = create<PokemonStore>((set) => ({
     const pokemonsData: PokemonResponse = await res.json();
     set({ pokemons: pokemonsData, isLoading: false });
   },
-  searchByType: async (pokemonType) => {
+  searchByType: async (pokemonType, page) => {
     set({ isLoading: true });
     const res = await fetch(
-      `${pokemonType ? `/api/pokemons/type/${pokemonType}` : "/api/pokemons"}`
+      `${
+        pokemonType
+          ? `/api/pokemons/type/${pokemonType}?page=${page}`
+          : `/api/pokemons?page=${page}`
+      }`
     );
     if (!res.ok) {
       throw new AppError("Ocorreu um erro ao buscar os pokémons!");

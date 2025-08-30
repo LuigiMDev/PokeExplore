@@ -14,12 +14,11 @@ export async function GET(
 ) {
   const { type } = await params;
   const { searchParams } = new URL(req.url);
-  const limit = Number(searchParams.get("limit") || 30);
-  const offset = Number(searchParams.get("offset") || 30);
+  const limit = 30;
+  const page = Number(searchParams.get("page")) || 1;
+  const offset = (page - 1) * limit;
   try {
-    const listRes = await fetch(
-      `${POKEMON_API}/type/${type}?limit=${limit}&offset=${offset}`
-    );
+    const listRes = await fetch(`${POKEMON_API}/type/${type}`);
     const listData = await listRes.json();
 
     if (!listRes.ok) {
@@ -37,6 +36,7 @@ export async function GET(
             return {
               id: data.id,
               name: data.name,
+              stats: data.stats,
               sprites: {
                 front_default: data.sprites.front_default,
               },
@@ -45,9 +45,11 @@ export async function GET(
           }
         )
     );
+    console.log(listData.pokemon.length);
+    console.log(detailedPokemons.length);
 
     return NextResponse.json({
-      count: detailedPokemons.length - 1,
+      count: listData.pokemon.length,
       results: detailedPokemons,
     });
   } catch (error) {

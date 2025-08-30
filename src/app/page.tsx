@@ -1,9 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { pokemonStore } from "@/zustand/pokemonStore";
-import PokemonCard from "./components/Pokemons/PokemonCard";
-import FilterCard from "./components/FilterCard";
-import Container from "./components/Container";
+import PokemonCard from "./components/PokemonCard";
+import FilterCard from "@/components/FilterCard";
+import Container from "@/components/Container";
 import { useShallow } from "zustand/shallow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -13,6 +13,8 @@ export default function Home() {
   const [pokemons, isLoading] = pokemonStore(
     useShallow((state) => [state.pokemons, state.isLoading])
   );
+
+ 
 
   return (
     <>
@@ -37,10 +39,12 @@ export default function Home() {
             favoritos. Mergulhe no mundo de Pokémon com a nossa plataforma
             moderna e elegante.
           </p>
-          <Button className="text-lg px-5 py-6">Explore Agora</Button>
+          <Button className="text-lg px-5 py-6" asChild>
+            <a href="#pokemonList">Explore Agora</a>
+          </Button>
         </div>
       </section>
-      <section>
+      <section id="pokemonList" className="scroll-mt-4">
         <Container>
           <FilterCard />
         </Container>

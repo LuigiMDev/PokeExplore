@@ -3,12 +3,12 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { DetailedPokemon } from "@/types/pokemon";
-import PokemonImageGallery from "./PokemonImageGallery";
-import PokemonBasicInfo from "./PokemonBasicInfo";
-import PokemonStatsDetailed from "./PokemonStatsDetailed";
-import PokemonAbilities from "./PokemonAbilities";
-import BackButton from "./BackButton";
-import Header from "./Header";
+import PokemonImageGallery from "./components/PokemonImageGallery";
+import PokemonBasicInfo from "./components/PokemonBasicInfo";
+import PokemonStatsDetailed from "./components/PokemonStatsDetailed";
+import PokemonAbilities from "./components/PokemonAbilities";
+import BackButton from "./components/BackButton";
+import Header from "./components/Header";
 
 export default async function PokemonDetail({
   params,

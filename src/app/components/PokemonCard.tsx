@@ -12,6 +12,14 @@ const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) => {
   const attack = pokemon.stats[1].base_stat;
   const defense = pokemon.stats[2].base_stat;
 
+  const getPokemonImage = (pokemon: Pokemon) => {
+    return (
+      pokemon.sprites.front_default ||
+      pokemon.sprites.other?.["official-artwork"]?.front_default ||
+      pokemon.sprites.other?.home?.front_default
+    );
+  };
+
   return (
     <Link href={`/pokemon/${pokemon.id}`}>
       <Card
@@ -31,7 +39,7 @@ const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) => {
           <div className="flex flex-col items-center text-center transition-all space-y-4">
             <div className="rounded-full bg-gradient-to-br from-slate-800/50 via-slate-700/50 to-slate-800/50 shadow-lg ">
               <img
-                src={pokemon.sprites.front_default}
+                src={getPokemonImage(pokemon)}
                 alt={pokemon.name}
                 className="group-hover:scale-110 transition-all w-32 h-32"
               />

@@ -3,26 +3,46 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Filter, Layers, Search } from "lucide-react";
 import React, { FormEvent, useState } from "react";
-import { pokemonTypes } from "../utils/Pokemons";
+import { pokemonTypes } from "@/app/utils/Pokemons";
 import { Badge } from "@/components/ui/badge";
 import { pokemonStore } from "@/zustand/pokemonStore";
 import { AppError } from "@/utils/AppError";
 import { toast } from "react-toastify";
 import { useShallow } from "zustand/shallow";
+import { PaginationController } from "./PaginationController";
 
 const FilterCard = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [selectedType, setSelectedType] = useState("Todos");
-  const [searchByType, searchByInput] = pokemonStore(
-    useShallow((state) => [state.searchByType, state.searchByInput])
+  const [pokemons, searchByType, searchByInput] = pokemonStore(
+    useShallow((state) => [
+      state.pokemons,
+      state.searchByType,
+      state.searchByInput,
+    ])
   );
   const [searchInput, setSearchInput] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleFilterByType = (pokemonType: string) => {
     try {
+      setCurrentPage(1);
       setSearchInput("");
-      searchByType(pokemonType);
+      searchByType(pokemonType, currentPage);
       setSelectedType(pokemonType);
+    } catch (err) {
+      if (err instanceof AppError) {
+        return toast.error(err.message);
+      }
+      toast.error("Ocorreu um erro ao buscar os pokémons!");
+    }
+  };
+
+  const onPageChange = (page: number) => {
+    try {
+      setCurrentPage(page);
+
+      searchByType(selectedType, page);
     } catch (err) {
       if (err instanceof AppError) {
         return toast.error(err.message);
@@ -36,6 +56,7 @@ const FilterCard = () => {
     try {
       setSelectedType("");
       searchByInput(searchInput);
+      setCurrentPage(1);
     } catch (err) {
       if (err instanceof AppError) {
         return toast.error(err.message);
@@ -59,13 +80,18 @@ const FilterCard = () => {
           </div>
         </form>
         <div className="transition-all w-full flex flex-col">
-          <div>
+          <div className="flex justify-between">
             <Button
               className="w-fit"
               onClick={() => setOpenFilter(!openFilter)}
             >
               <Filter /> Filtros
             </Button>
+            <PaginationController
+              currentPage={currentPage}
+              totalPages={Math.ceil(pokemons.count / 30)}
+              onPageChange={onPageChange}
+            />
           </div>
 
           <div

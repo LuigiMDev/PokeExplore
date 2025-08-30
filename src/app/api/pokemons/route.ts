@@ -6,8 +6,9 @@ const POKEMON_API = process.env.NEXT_PUBLIC_API_URL;
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const limit = Number(searchParams.get("limit") || 30);
-  const offset = Number(searchParams.get("offset") || 30);
+  const limit = 30;
+  const page = Number(searchParams.get("page")) || 1;
+  const offset = (page - 1) * limit;
 
   try {
     const listRes = await fetch(
