@@ -19,9 +19,7 @@ export default async function PokemonDetail({
 
   let pokemon: undefined | DetailedPokemon = undefined;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/pokemons/${id}`
-  );
+  const res = await fetch(`${process.env.BASE_URL}/api/pokemons/${id}`);
 
   if (res.ok) pokemon = (await res.json()).results[0];
 
