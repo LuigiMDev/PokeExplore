@@ -1,10 +1,10 @@
 import { AppError } from "@/utils/AppError";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const POKEMON_API = process.env.API_URL;
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: { params: Promise<{ search: string }> }
 ) {
   const { search } = await params;

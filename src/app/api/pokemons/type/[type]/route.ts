@@ -9,7 +9,7 @@ export async function GET(
   {
     params,
   }: {
-    params: { type: string };
+    params: Promise<{ type: string }>;
   }
 ) {
   const { type } = await params;
