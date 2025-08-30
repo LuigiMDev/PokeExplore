@@ -14,8 +14,6 @@ export default function Home() {
     useShallow((state) => [state.pokemons, state.isLoading])
   );
 
- 
-
   return (
     <>
       <section

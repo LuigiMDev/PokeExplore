@@ -69,7 +69,7 @@ export default async function PokemonDetail({
             </TabsTrigger>
           </TabsList>
 
-          <div className="mt-8">
+          <div className="mt-8 relative">
             <TabsContent value="stats">
               <PokemonStatsDetailed stats={pokemon.stats} />
             </TabsContent>

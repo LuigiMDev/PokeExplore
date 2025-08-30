@@ -13,7 +13,7 @@ import { PaginationController } from "./PaginationController";
 
 const FilterCard = () => {
   const [openFilter, setOpenFilter] = useState(false);
-  const [selectedType, setSelectedType] = useState("Todos");
+  const [selectedType, setSelectedType] = useState("");
   const [pokemons, searchByType, searchByInput] = pokemonStore(
     useShallow((state) => [
       state.pokemons,
