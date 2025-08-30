@@ -20,6 +20,7 @@ const FilterCard = () => {
 
   const handleFilterByType = (pokemonType: string) => {
     try {
+      setSearchInput("");
       searchByType(pokemonType);
       setSelectedType(pokemonType);
     } catch (err) {
@@ -33,6 +34,7 @@ const FilterCard = () => {
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setSelectedType("");
       searchByInput(searchInput);
     } catch (err) {
       if (err instanceof AppError) {
@@ -41,6 +43,7 @@ const FilterCard = () => {
       toast.error("Ocorreu um erro ao buscar os pokémons!");
     }
   };
+
   return (
     <Card className="text-white bg-slate-900 transition-all border-slate-800/50 border-2 group duration-300 hover:shadow-2xl mt-10">
       <CardContent>

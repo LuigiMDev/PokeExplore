@@ -5,14 +5,40 @@ export type NamedAPIResource = {
 
 // Imagens
 export type PokemonSprites = {
-  back_default: string | undefined;
-  back_female: string | undefined;
-  back_shiny: string | undefined;
-  back_shiny_female: string | undefined;
-  front_default: string | undefined;
-  front_female: string | undefined;
-  front_shiny: string | undefined;
-  front_shiny_female: string | undefined;
+  back_default?: string;
+  back_female?: string;
+  back_shiny?: string;
+  back_shiny_female?: string;
+  front_default?: string;
+  front_female?: string;
+  front_shiny?: string;
+  front_shiny_female?: string;
+  other?: {
+    dream_world?: {
+      front_default?: string;
+      front_female?: string;
+    };
+    home?: {
+      front_default?: string;
+      front_female?: string;
+      front_shiny?: string;
+      front_shiny_female?: string;
+    };
+    ["official-artwork"]?: {
+      front_default?: string;
+      front_shiny?: string;
+    };
+    showdown?: {
+      front_default?: string;
+      back_default?: string;
+      front_shiny?: string;
+      back_shiny?: string;
+      front_female?: string;
+      back_female?: string;
+      front_shiny_female?: string;
+      back_shiny_female?: string;
+    };
+  };
 };
 
 // Sons
@@ -59,6 +85,7 @@ export type Pokemon = {
   id: number;
   name: string;
   sprites: PokemonSprites;
+  stats: PokemonStat[];
   types: PokemonType[];
 };
 
@@ -72,4 +99,26 @@ export type PokemonListAPIResponse = {
 export type PokemonResponse = {
   count: number;
   results: Pokemon[];
+};
+
+export type DetailedPokemon = {
+  id: number;
+  name: string;
+  order: number;
+  base_experience: number;
+  height: number; // altura (em decímetros)
+  weight: number; // peso (em hectogramas)
+  sprites: PokemonSprites;
+  cries?: PokemonCries;
+  types: PokemonType[];
+  abilities: PokemonAbility[];
+  stats: PokemonStat[];
+  moves: PokemonMove[];
+  held_items: PokemonHeldItem[];
+  forms: PokemonForm[];
+};
+
+export type DetailedPokemonResponse = {
+  count: number;
+  results: DetailedPokemon;
 };

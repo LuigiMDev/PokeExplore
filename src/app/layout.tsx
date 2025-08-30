@@ -24,8 +24,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const baseUrl = "http://localhost:3000";
-  const res = await fetch(`${baseUrl}/api/pokemons`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/pokemons`, {
     next: { revalidate: 300 },
   });
 

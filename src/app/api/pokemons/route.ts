@@ -28,6 +28,7 @@ export async function GET(req: Request) {
         return {
           id: data.id,
           name: data.name,
+          stats: data.stats,
           sprites: {
             front_default: data.sprites.front_default,
           },
