@@ -1,7 +1,7 @@
 import { AppError } from "@/utils/AppError";
 import { NextResponse } from "next/server";
 
-const POKEMON_API = process.env.NEXT_PUBLIC_API_URL;
+const POKEMON_API = process.env.API_URL;
 
 export async function GET(
   req: Request,
@@ -17,7 +17,6 @@ export async function GET(
   }
 
   try {
-    console.log(`${POKEMON_API}/pokemon/${search?.toLowerCase()}`);
     const listRes = await fetch(
       `${POKEMON_API}/pokemon/${search?.toLowerCase()}`
     );

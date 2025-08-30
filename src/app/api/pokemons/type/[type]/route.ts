@@ -2,7 +2,7 @@ import { Pokemon } from "@/types/pokemon";
 import { AppError } from "@/utils/AppError";
 import { NextRequest, NextResponse } from "next/server";
 
-const POKEMON_API = process.env.NEXT_PUBLIC_API_URL;
+const POKEMON_API = process.env.API_URL;
 
 export async function GET(
   req: NextRequest,
@@ -45,8 +45,6 @@ export async function GET(
           }
         )
     );
-    console.log(listData.pokemon.length);
-    console.log(detailedPokemons.length);
 
     return NextResponse.json({
       count: listData.pokemon.length,

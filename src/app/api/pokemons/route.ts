@@ -2,7 +2,7 @@ import { Pokemon } from "@/types/pokemon";
 import { AppError } from "@/utils/AppError";
 import { NextResponse } from "next/server";
 
-const POKEMON_API = process.env.NEXT_PUBLIC_API_URL;
+const POKEMON_API = process.env.API_URL;
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
