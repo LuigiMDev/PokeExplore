@@ -66,7 +66,7 @@ const FilterCard = () => {
   };
 
   return (
-    <Card className="text-white bg-slate-900 transition-all border-slate-800/50 border-2 group duration-300 hover:shadow-2xl mt-10">
+    <Card className="text-white bg-slate-900 transition-all border-slate-800/50 border-2 group duration-300 hover:shadow-2xl mt-10 mx-6">
       <CardContent>
         <form onSubmit={handleSearch} className="mb-4">
           <div className="relative">
@@ -80,13 +80,14 @@ const FilterCard = () => {
           </div>
         </form>
         <div className="transition-all w-full flex flex-col">
-          <div className="flex justify-between">
+          <div className="flex justify-between flex-wrap items-center gap-y-4">
             <Button
               className="w-fit"
               onClick={() => setOpenFilter(!openFilter)}
             >
               <Filter /> Filtros
             </Button>
+
             <PaginationController
               currentPage={currentPage}
               totalPages={Math.ceil(pokemons.count / 30)}

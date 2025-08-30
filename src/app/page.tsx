@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { pokemonStore } from "@/zustand/pokemonStore";
 import PokemonCard from "./components/PokemonCard";
 import FilterCard from "@/components/FilterCard";
-import Container from "@/components/Container";
 import { useShallow } from "zustand/shallow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search } from "lucide-react";
+import { LoaderCircle, Search } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export default function Home() {
   const [pokemons, isLoading] = pokemonStore(
@@ -42,13 +42,23 @@ export default function Home() {
           </Button>
         </div>
       </section>
-      <section id="pokemonList" className="scroll-mt-4">
-        <Container>
-          <FilterCard />
-        </Container>
+      <section id="pokemonList" className="scroll-mt-4 space-y-4">
+        <FilterCard />
+
+        <div className="mx-8">
+          <Badge>
+            {isLoading ? (
+              <LoaderCircle className="animate-spin" />
+            ) : (
+              `${pokemons.count} pokémon${
+                pokemons.count === 1 ? "" : "s"
+              } encontrado${pokemons.count === 1 ? "" : "s"}`
+            )}
+          </Badge>
+        </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 p-8 content-center">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 px-8 content-center">
             {Array(12)
               .fill(0)
               .map((_, i) => (
@@ -83,7 +93,7 @@ export default function Home() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 p-8 content-center">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 px-8 content-center">
             {pokemons.results.map((pokemon) => (
               <PokemonCard key={pokemon.id} pokemon={pokemon} />
             ))}

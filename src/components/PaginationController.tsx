@@ -70,29 +70,41 @@ export const PaginationController = ({
           />
         </PaginationItem>
 
-        {pages.map((p, index) =>
-          p === "ellipsis" ? (
-            <PaginationItem key={`ellipsis-${index}`}>
-              <PaginationEllipsis />
-            </PaginationItem>
-          ) : (
-            <PaginationItem key={p}>
-              <PaginationLink
-                className={`${
-                  currentPage === p && " pointer-events-none "
-                }`}
-                href="#"
-                isActive={p === currentPage}
-                onClick={(e) => {
-                  e.preventDefault();
-                  onPageChange(p);
-                }}
-              >
-                {p}
-              </PaginationLink>
-            </PaginationItem>
-          )
-        )}
+        {/* Para telas grandes */}
+        <div className="hidden sm:flex gap-1">
+          {pages.map((p, index) =>
+            p === "ellipsis" ? (
+              <PaginationItem key={`ellipsis-${index}`}>
+                <PaginationEllipsis />
+              </PaginationItem>
+            ) : (
+              <PaginationItem key={p}>
+                <PaginationLink
+                  className={`${currentPage === p && "pointer-events-none"}`}
+                  href="#"
+                  isActive={p === currentPage}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onPageChange(p);
+                  }}
+                >
+                  {p}
+                </PaginationLink>
+              </PaginationItem>
+            )
+          )}
+        </div>
+
+        {/* Para telas pequenas */}
+        <div className="flex sm:hidden gap-1 items-center">
+          {currentPage > 1 && <PaginationEllipsis />}
+          <PaginationItem key={currentPage}>
+            <PaginationLink href="#" isActive>
+              {currentPage}
+            </PaginationLink>
+          </PaginationItem>
+          {currentPage < totalPages && <PaginationEllipsis />}
+        </div>
 
         <PaginationItem>
           <PaginationNext
