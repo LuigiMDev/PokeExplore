@@ -27,7 +27,7 @@ export default async function PokemonDetail({
 
   if (!pokemon) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center relative">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-white mb-4">
             Pokémon não encontrado
@@ -39,7 +39,7 @@ export default async function PokemonDetail({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 w-full">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 w-full relative">
       {/* Header */}
       <Header pokemon={pokemon} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">

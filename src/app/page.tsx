@@ -28,10 +28,10 @@ export default function Home() {
         <div className="bg-black/30 absolute inset-0 z-10" />
         <div className="bg-gradient-to-b from-slate-950/0 via-slate-950 to-slate-950/0 absolute -bottom-10 z-20 h-20 w-full left-0"></div>
         <div className="max-w-2xl relative z-20 text-white overflow-hidden space-y-10 text-center md:text-left w-full">
-          <h1 className="text-6xl font-bold leading-18">
+          <h1 className="text-4xl md:text-6xl font-bold md:leading-18">
             Explore o Mundo de <br /> Pokémon
           </h1>
-          <p className="text-xl ">
+          <p className="text-lg md:text-xl">
             Explore o Mundo de Pokémon Descubra informações detalhadas,
             estatísticas e factos fascinantes sobre todos os seus Pokémon
             favoritos. Mergulhe no mundo de Pokémon com a nossa plataforma
@@ -46,7 +46,7 @@ export default function Home() {
         <FilterCard />
 
         <div className="mx-8">
-          <Badge>
+          <Badge variant={"cards"} className="bg-primary/60">
             {isLoading ? (
               <LoaderCircle className="animate-spin" />
             ) : (
