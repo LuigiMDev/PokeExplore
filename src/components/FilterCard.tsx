@@ -13,23 +13,37 @@ import { PaginationController } from "./PaginationController";
 
 const FilterCard = () => {
   const [openFilter, setOpenFilter] = useState(false);
-  const [selectedType, setSelectedType] = useState("");
-  const [pokemons, searchByType, searchByInput] = pokemonStore(
+
+  const [
+    pokemons,
+    selectedType,
+    setSelectedType,
+    searchInput,
+    setSearchInput,
+    currentPage,
+    setCurrentPage,
+    searchByType,
+    searchByInput,
+  ] = pokemonStore(
     useShallow((state) => [
       state.pokemons,
+      state.selectedType,
+      state.setSelectedType,
+      state.searchInput,
+      state.setSearchInput,
+      state.currentPage,
+      state.setCurrentPage,
       state.searchByType,
       state.searchByInput,
     ])
   );
-  const [searchInput, setSearchInput] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
 
   const handleFilterByType = (pokemonType: string) => {
     try {
       setCurrentPage(1);
       setSearchInput("");
-      searchByType(pokemonType, currentPage);
       setSelectedType(pokemonType);
+      searchByType();
     } catch (err) {
       if (err instanceof AppError) {
         return toast.error(err.message);
@@ -42,7 +56,7 @@ const FilterCard = () => {
     try {
       setCurrentPage(page);
 
-      searchByType(selectedType, page);
+      searchByType();
     } catch (err) {
       if (err instanceof AppError) {
         return toast.error(err.message);
@@ -55,7 +69,7 @@ const FilterCard = () => {
     e.preventDefault();
     try {
       setSelectedType("");
-      searchByInput(searchInput);
+      searchByInput();
       setCurrentPage(1);
     } catch (err) {
       if (err instanceof AppError) {

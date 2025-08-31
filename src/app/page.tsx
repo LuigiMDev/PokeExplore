@@ -42,7 +42,7 @@ export default function Home() {
           </Button>
         </div>
       </section>
-      <section id="pokemonList" className="scroll-mt-4 space-y-4">
+      <section id="pokemonList" className="scroll-mt-24 space-y-4">
         <FilterCard />
 
         <div className="mx-8">

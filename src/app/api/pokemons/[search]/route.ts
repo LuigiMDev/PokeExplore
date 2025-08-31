@@ -1,7 +1,6 @@
 import { AppError } from "@/utils/AppError";
 import { NextRequest, NextResponse } from "next/server";
-
-const POKEMON_API = process.env.API_URL;
+import { getPokemonByIdOrSearch } from "../../lib/getPokemonByIdOrSearch";
 
 export async function GET(
   req: NextRequest,
@@ -17,20 +16,7 @@ export async function GET(
   }
 
   try {
-    const listRes = await fetch(
-      `${POKEMON_API}/pokemon/${search?.toLowerCase()}`,
-      {
-        next: { revalidate: 3600 },
-      }
-    );
-
-    if (!listRes.ok) {
-      throw new AppError(`${listRes.statusText}`, listRes.status);
-    }
-
-    const listData = await listRes.json();
-
-    return NextResponse.json({ count: 1, results: [listData] });
+    return NextResponse.json(await getPokemonByIdOrSearch(search));
   } catch (error) {
     if (error instanceof AppError) {
       if (error.status === 404) {

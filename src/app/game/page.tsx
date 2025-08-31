@@ -1,5 +1,24 @@
 import React from "react";
 import AIGuessGame from "./AIGuessGame";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Quem é essa Pokémon?",
+  description:
+    "Adivinhe qual é o Pokémon do dia usando inteligência artificial.",
+  openGraph: {
+    title: "Quem é essa Pokémon?",
+    description:
+      "Adivinhe qual é o Pokémon do dia usando inteligência artificial.",
+    images: ["/logo.png"],
+  },
+  twitter: {
+    title: "Quem é essa Pokémon?",
+    description:
+      "Adivinhe qual é o Pokémon do dia usando inteligência artificial.",
+    images: ["/logo.png"],
+  },
+};
 
 export default function AIGamePage() {
   return (

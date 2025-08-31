@@ -9,19 +9,73 @@ import PokemonStatsDetailed from "./components/PokemonStatsDetailed";
 import PokemonAbilities from "./components/PokemonAbilities";
 import BackButton from "./components/BackButton";
 import Header from "./components/Header";
+import { getPokemonByIdOrSearch } from "@/app/api/lib/getPokemonByIdOrSearch";
+import { Metadata } from "next";
 
-export default async function PokemonDetail({
-  params,
-}: {
+type Props = {
   params: Promise<{ id: string }>;
-}) {
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
 
-  let pokemon: undefined | DetailedPokemon = undefined;
+  try {
+    const pokemon: DetailedPokemon | undefined = (
+      await getPokemonByIdOrSearch(id)
+    ).results[0];
 
-  const res = await fetch(`${process.env.BASE_URL}/api/pokemons/${id}`);
+    if (!pokemon) {
+      return {
+        title: "Pokémon não encontrado",
+        description: "Esse Pokémon não existe no nosso banco de dados.",
+      };
+    }
 
-  if (res.ok) pokemon = (await res.json()).results[0];
+    return {
+      title: `${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}`,
+      description: `Explore detalhes do Pokémon ${pokemon.name}, incluindo estatísticas, habilidades e movimentos.`,
+      openGraph: {
+        title: `${
+          pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)
+        }`,
+        description: `Explore detalhes do Pokémon ${pokemon.name}.`,
+        images: [
+          {
+            url:
+              pokemon.sprites?.other?.["official-artwork"]?.front_default ?? "",
+            alt: pokemon.name,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${
+          pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)
+        }`,
+        description: `Explore detalhes do Pokémon ${pokemon.name}.`,
+        images: [
+          pokemon.sprites?.other?.["official-artwork"]?.front_default ?? "",
+        ],
+      },
+    };
+  } catch {
+    return {
+      title: "Erro",
+      description: "Ocorreu um erro ao carregar os dados do Pokémon.",
+    };
+  }
+}
+
+export default async function PokemonDetail({ params }: Props) {
+  const { id } = await params;
+
+  let pokemon: DetailedPokemon | undefined;
+
+  try {
+    pokemon = (await getPokemonByIdOrSearch(id)).results[0];
+  } catch {
+    pokemon = undefined;
+  }
 
   if (!pokemon) {
     return (

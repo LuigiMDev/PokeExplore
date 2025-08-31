@@ -4,6 +4,7 @@ import "./globals.css";
 import Setter from "@/components/Setter";
 import { ToastContainer } from "react-toastify";
 import { getPokemons } from "./api/lib/getPokemons";
+import { PokemonResponse } from "@/types/pokemon";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,7 +47,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const initalPokemonsData = await getPokemons();
+  let initalPokemonsData: PokemonResponse;
+  try {
+    initalPokemonsData = await getPokemons();
+  } catch {
+    initalPokemonsData = { count: 0, results: [] };
+  }
 
   return (
     <html lang="en">
