@@ -1,103 +1,105 @@
-import Image from "next/image";
+"use client";
+import { Button } from "@/components/ui/button";
+import { pokemonStore } from "@/zustand/pokemonStore";
+import PokemonCard from "./components/PokemonCard";
+import FilterCard from "@/components/FilterCard";
+import { useShallow } from "zustand/shallow";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { LoaderCircle, Search } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [pokemons, isLoading] = pokemonStore(
+    useShallow((state) => [state.pokemons, state.isLoading])
+  );
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <>
+      <section
+        className="min-h-[100dvh] w-full mx-auto relative flex items-center p-8"
+        style={{
+          backgroundImage: `url(./hero_banner.webp)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="bg-black/30 absolute inset-0 z-10" />
+        <div className="bg-gradient-to-b from-slate-950/0 via-slate-950 to-slate-950/0 absolute -bottom-10 z-20 h-20 w-full left-0"></div>
+        <div className="max-w-2xl relative z-20 text-white overflow-hidden space-y-10 text-center md:text-left w-full">
+          <h1 className="text-4xl md:text-6xl font-bold md:leading-18">
+            Explore o Mundo de <br /> Pokémon
+          </h1>
+          <p className="text-lg md:text-xl">
+            Explore o Mundo de Pokémon Descubra informações detalhadas,
+            estatísticas e factos fascinantes sobre todos os seus Pokémon
+            favoritos. Mergulhe no mundo de Pokémon com a nossa plataforma
+            moderna e elegante.
+          </p>
+          <Button className="text-lg px-5 py-6" asChild>
+            <a href="#pokemonList">Explore Agora</a>
+          </Button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+      <section id="pokemonList" className="scroll-mt-24 space-y-4">
+        <FilterCard />
+
+        <div className="mx-8">
+          <Badge variant={"cards"} className="bg-primary/60">
+            {isLoading ? (
+              <LoaderCircle className="animate-spin" />
+            ) : (
+              `${pokemons.count} pokémon${
+                pokemons.count === 1 ? "" : "s"
+              } encontrado${pokemons.count === 1 ? "" : "s"}`
+            )}
+          </Badge>
+        </div>
+
+        {isLoading ? (
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 px-8 content-center">
+            {Array(12)
+              .fill(0)
+              .map((_, i) => (
+                <Card
+                  key={i}
+                  className={`text-white relative bg-slate-900 hover:scale-[1.02] transition-all border-slate-800/50 border-2 group cursor-pointer duration-300 hover:shadow-2xl`}
+                >
+                  <CardContent className="relative capitalize">
+                    <Skeleton className="h-5 w-9" />
+                    <div className="flex flex-col items-center text-center transition-all space-y-4">
+                      <Skeleton className="rounded-full shadow-lg h-32 w-32" />
+                      <Skeleton className="w-26 h-7" />
+                      <div className="flex flex-wrap gap-2 mt-2 justify-center items-center">
+                        <Skeleton className="w-20 h-6" />
+                        <Skeleton className="w-20 h-6" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+          </div>
+        ) : pokemons.count === 0 ? (
+          <div className="w-full flex flex-col items-center justify-center py-24">
+            <div className="rounded-full p-5 mb-6 bg-slate-800">
+              <Search className="w-12 h-12 text-slate-400" />
+            </div>
+            <p className="text-2xl text-white font-semibold">
+              Nenhum Pokémon encontrado
+            </p>
+            <p className="text-slate-400">
+              Tente ajustar os filtros de pesquisa
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 px-8 content-center">
+            {pokemons.results.map((pokemon) => (
+              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+            ))}
+          </div>
+        )}
+      </section>
+    </>
   );
 }
