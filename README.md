@@ -37,7 +37,7 @@ BASE_URL=http://localhost:3000
 > **Observações:**
 >
 > - `AI_ACCESS_TOKEN` é usado para integração com IA no game "Quem é esse Pokémon?".
-> - `BASE_URL` é a URL onde o Next.js está rodando. Para local, use `http://localhost:3000`.
+> - `BASE_URL` é a URL onde o Next.js está rodando para fins de SEO. Para local, já está configurado na url https://localhost:3000.
 > - A URL da PokéAPI já está configurada no `.env` e será comitada normalmente.
 
 3. Rode o projeto:
