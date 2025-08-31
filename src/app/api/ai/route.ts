@@ -1,6 +1,6 @@
 import { AppError } from "@/utils/AppError";
 import { NextRequest, NextResponse } from "next/server";
-import { getPokemonOfTheDay } from "../helpers/getPokemonOfTheDay";
+import { getPokemonOfTheDay } from "../lib/getPokemonOfTheDay";
 
 function isPokemonCorrect(userInput: string, pokemonName: string) {
   const normalizedInput = userInput.toLowerCase().replace(/[^a-z0-9]/g, "");

@@ -18,7 +18,9 @@ export async function GET(
   const page = Number(searchParams.get("page")) || 1;
   const offset = (page - 1) * limit;
   try {
-    const listRes = await fetch(`${POKEMON_API}/type/${type}`);
+    const listRes = await fetch(`${POKEMON_API}/type/${type}`, {
+      next: { revalidate: 3600 },
+    });
     const listData = await listRes.json();
 
     if (!listRes.ok) {
@@ -30,7 +32,9 @@ export async function GET(
         .slice(offset, offset + limit)
         .map(
           async ({ pokemon }: { pokemon: { name: string; url: string } }) => {
-            const res = await fetch(pokemon.url);
+            const res = await fetch(pokemon.url, {
+              next: { revalidate: 3600 },
+            });
             const data: Pokemon = await res.json();
 
             return {

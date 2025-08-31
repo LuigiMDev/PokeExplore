@@ -1,6 +1,6 @@
 import { AppError } from "@/utils/AppError";
 import { NextResponse } from "next/server";
-import { getPokemonOfTheDay } from "../../helpers/getPokemonOfTheDay";
+import { getPokemonOfTheDay } from "../../lib/getPokemonOfTheDay";
 
 export async function GET() {
   try {

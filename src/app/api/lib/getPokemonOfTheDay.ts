@@ -13,7 +13,9 @@ export async function getPokemonOfTheDay() {
   );
 
   const resPokemonOfTheDay = await fetch(
-    `${POKEMON_API}/pokemon/${pokemonIndex}`
+    `${POKEMON_API}/pokemon/${pokemonIndex}`, {
+      next: {revalidate: 3600}
+    }
   );
   if (!resPokemonOfTheDay.ok)
     throw new AppError(

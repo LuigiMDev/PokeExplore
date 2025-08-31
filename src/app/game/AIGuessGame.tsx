@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2, Send, BrainCircuit } from "lucide-react";
 import { Pokemon } from "@/types/pokemon";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -25,7 +26,6 @@ export default function AIGuessGame() {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [userInput, setUserInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const getTodayKey = () => {
     const today = new Date();
@@ -85,12 +85,11 @@ export default function AIGuessGame() {
     initialize();
   }, []);
 
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
-    }
-  }, [chatHistory]);
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatHistory, isThinking]);
 
   const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault();
@@ -175,42 +174,42 @@ export default function AIGuessGame() {
 
       {/* Chat Interface */}
       <div className="flex flex-col h-[32rem] bg-slate-800/40 rounded-2xl border border-slate-700 p-5 shadow-inner">
-        <div
-          ref={chatContainerRef}
-          className="flex-1 space-y-4 overflow-y-auto pr-2 custom-scrollbar"
-        >
-          {chatHistory.map((msg, index) => (
-            <div
-              key={index}
-              className={`flex gap-3 ${
-                msg.role === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
-              {msg.role === "assistant" && (
-                <BrainCircuit className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-              )}
+        <ScrollArea className="overflow-y-auto px-2 flex-1">
+          <div className=" space-y-4  pr-2">
+            {chatHistory.map((msg, index) => (
               <div
-                className={`max-w-[75%] rounded-2xl px-4 py-2 text-sm leading-relaxed shadow 
+                key={index}
+                className={`flex gap-3 ${
+                  msg.role === "user" ? "justify-end" : "justify-start"
+                }`}
+              >
+                {msg.role === "assistant" && (
+                  <BrainCircuit className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
+                )}
+                <div
+                  className={`max-w-[75%] rounded-2xl px-4 py-2 text-sm leading-relaxed shadow 
               ${
                 msg.role === "user"
                   ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-br-sm"
                   : "bg-slate-700 text-slate-200 rounded-bl-sm"
               }`}
-              >
-                <p className="whitespace-pre-wrap">{msg.content}</p>
+                >
+                  <p className="whitespace-pre-wrap">{msg.content}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-          {isThinking && (
-            <div className="flex gap-3 justify-start">
-              <BrainCircuit className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-              <div className="bg-slate-700 rounded-2xl px-4 py-2">
-                <Loader2 className="w-5 h-5 animate-spin text-slate-300" />
+            {isThinking && (
+              <div className="flex gap-3 justify-start">
+                <BrainCircuit className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
+                <div className="bg-slate-700 rounded-2xl px-4 py-2">
+                  <Loader2 className="w-5 h-5 animate-spin text-slate-300" />
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+          <div ref={messagesEndRef} />
+        </ScrollArea>
 
         <form
           onSubmit={handleSendMessage}

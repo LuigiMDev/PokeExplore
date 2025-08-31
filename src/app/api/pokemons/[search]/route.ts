@@ -18,7 +18,10 @@ export async function GET(
 
   try {
     const listRes = await fetch(
-      `${POKEMON_API}/pokemon/${search?.toLowerCase()}`
+      `${POKEMON_API}/pokemon/${search?.toLowerCase()}`,
+      {
+        next: { revalidate: 3600 },
+      }
     );
 
     if (!listRes.ok) {

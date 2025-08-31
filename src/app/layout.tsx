@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Setter from "@/components/Setter";
 import { ToastContainer } from "react-toastify";
+import { getPokemons } from "./api/lib/getPokemons";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,11 +46,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const res = await fetch(`${process.env.BASE_URL}/api/pokemons`, {
-    next: { revalidate: 300 },
-  });
-
-  const initalPokemonsData = await res.json();
+  const initalPokemonsData = await getPokemons();
 
   return (
     <html lang="en">
