@@ -32,9 +32,7 @@ export default function PokemonBasicInfo({ pokemon }: PokemonBasicInfoProps) {
           {pokemon.name}
         </h1>
         <div className="flex gap-2">
-          {pokemon.types?.map((typeObj) => (
-            <PokemonTypes key={typeObj.type.name} pokemon={pokemon} />
-          ))}
+          <PokemonTypes pokemon={pokemon} />
         </div>
       </div>
 
