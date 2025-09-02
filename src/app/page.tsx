@@ -19,7 +19,7 @@ export default function Home() {
       <section
         className="min-h-[100dvh] w-full mx-auto relative flex items-center p-8"
         style={{
-          backgroundImage: `url(./hero_banner.webp)`,
+          backgroundImage: `url(/hero_banner.webp)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
